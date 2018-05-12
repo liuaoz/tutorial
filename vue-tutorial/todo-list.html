@@ -10,8 +10,8 @@
     <input type="text" v-model="inputValue">
     <button v-on:click="handleBtnClick">提交</button>
     <ul>
-        <todo-item v-bind:item="item"
-                   v-for="(item,index) in list"
+        <todo-item v-bind:item="item" v-bind:index="index"
+                   v-for="(item,index) in list" :key="index"
                    @delete="deleteItem(index)">
 
         </todo-item>
@@ -21,16 +21,27 @@
 </body>
 
 <script>
-
-    Vue.component('todo-item', {
-        props: ['item'],
+//全局组件
+//    Vue.component('todo-item', {
+//        props: ['item','index'],
+//        template: '<li v-on:click="handleItemClick">{{item}}</li>',
+//        methods: {
+//            handleItemClick () {
+//                this.$emit('delete',this.index)
+//            }
+//        }
+//    })
+//局部组件
+    var TodoItem = {
+        props: ['item','index'],
         template: '<li v-on:click="handleItemClick">{{item}}</li>',
         methods: {
-            handleItemClick (index) {
-                this.$emit('delete',index)
+            handleItemClick () {
+                this.$emit('delete',this.index)
             }
         }
-    })
+
+    }
 
     var app = new Vue({
         el: '#app',
@@ -38,7 +49,9 @@
             inputValue: '请输入代办事项',
             list: ['aaaa', 'bbbb']
         },
-        components: {},
+        components: {
+            TodoItem: TodoItem
+        },
         methods: {
             handleBtnClick () {
                 this.list.push(this.inputValue)
