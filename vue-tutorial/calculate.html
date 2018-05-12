@@ -1,0 +1,33 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>计算属性，方法，侦听器</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+<div id="root">
+    firstName: {{firstName}}  <br>
+    lastName: {{lastName}} <br>
+    FullName:
+</div>
+
+<script>
+
+    var vm = new Vue({
+        el: '#root',
+        data: {
+            name: 'hello vue.',
+            firstName: 'matrix',
+            lastName: 'chen',
+        },
+        computed: function () {
+            fullName: function () {
+                return this.firstName + this.lastName
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

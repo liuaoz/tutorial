@@ -1,0 +1,27 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>VUE 模板语法</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+<!-- vue指令，后面跟着一个值的时候，这时候值就不是字符串，而是插值表达式 -->
+<div id="root">
+    {{name}}
+    <div v-text="name"></div>
+    <div v-html="name"></div>
+</div>
+
+<script>
+
+    var vm = new Vue({
+        el: '#root',
+        data: {
+            name:'<h1>hello world.</h1>'
+        }
+    })
+
+</script>
+</body>
+</html>

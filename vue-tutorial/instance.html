@@ -1,0 +1,42 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>VUE 实例</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+
+<div id="root">
+    <!-- on-click @click 相同 v-bind 可以省略 -->
+    <!-- $data 以$开头，表示是vue实例属性或者方法 -->
+    <div @click="handleMsgClick">
+    {{message}}
+    </div>
+    <item></item>
+
+
+</div>
+
+<script>
+
+    Vue.component('item',{
+        template:'<div>hello world</div>'
+    })
+
+    var vm = new Vue({
+        el: '#root',
+        data: {
+            message:'消息'
+        },
+        methods: {
+            handleMsgClick () {
+                alert('xxxxxxxxxx')
+            }
+        }
+    })
+
+</script>
+</body>
+
+</html>

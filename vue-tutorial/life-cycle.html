@@ -1,0 +1,62 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>VUE 实例生命周期函数</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+
+<!-- 挂载点 -->
+<div id="root">
+hello world.
+
+</div>
+
+<script>
+
+    //生命周期函数就是vue实例在某一个时间点会自动执行的函数
+    //template优先级比el高
+    var vm = new Vue({
+        el: '#root',
+        template: '<div @click="handleClickDiv">{{message}}</div>',
+        data:{
+            message:'this is message'
+        },
+        methods:{
+            handleClickDiv (){
+                console.info('click div....')
+            }
+        },
+        beforeCreate : function () {
+            console.info('before create.')
+        },
+        created () {
+            console.info('created')
+        },
+        beforeMount () {
+            console.info('beforeMount:' + this.$el)
+            console.info('before mount')
+        },
+        mounted (){
+            console.info('mounted:' + this.$el)
+            console.info('mounted')
+        },
+        beforeDestroy (){
+            console.info('beforeDestroy')
+        },
+        destroyed (){
+            console.info('destroyed')
+        },
+        beforeUpdate (){
+            console.info('beforeUpdate')
+        },
+        updated (){
+            console.info('updated')
+        }
+    })
+
+</script>
+</body>
+
+</html>
