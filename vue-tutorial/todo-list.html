@@ -11,7 +11,8 @@
     <button v-on:click="handleBtnClick">提交</button>
     <ul>
         <todo-item v-bind:item="item"
-                   v-for="item in list">
+                   v-for="(item,index) in list"
+                   @delete="deleteItem(index)">
 
         </todo-item>
     </ul>
@@ -21,9 +22,14 @@
 
 <script>
 
-    Vue.component('todo-item',{
-        props:['item'],
-        template: '<li>{{item}}</li>',
+    Vue.component('todo-item', {
+        props: ['item'],
+        template: '<li v-on:click="handleItemClick">{{item}}</li>',
+        methods: {
+            handleItemClick (index) {
+                this.$emit('delete',index)
+            }
+        }
     })
 
     var app = new Vue({
@@ -32,13 +38,14 @@
             inputValue: '请输入代办事项',
             list: ['aaaa', 'bbbb']
         },
-        components:{
-
-        },
+        components: {},
         methods: {
             handleBtnClick () {
                 this.list.push(this.inputValue)
                 this.inputValue = ''
+            },
+            deleteItem (index) {
+                this.list.splice(index,1)
             }
         }
     })
