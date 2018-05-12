@@ -7,10 +7,13 @@
 
 <body>
 <div id="app">
-    <input v-model="inputValue">
+    <input type="text" v-model="inputValue">
     <button v-on:click="handleBtnClick">提交</button>
     <ul>
-        <li v-for="item in list">{{item}}</li>
+        <todo-item v-bind:item="item"
+                   v-for="item in list">
+
+        </todo-item>
     </ul>
 </div>
 
@@ -18,14 +21,22 @@
 
 <script>
 
+    Vue.component('todo-item',{
+        props:['item'],
+        template: '<li>{{item}}</li>',
+    })
+
     var app = new Vue({
         el: '#app',
         data: {
             inputValue: '请输入代办事项',
             list: ['aaaa', 'bbbb']
         },
+        components:{
+
+        },
         methods: {
-            handleBtnClick: function () {
+            handleBtnClick () {
                 this.list.push(this.inputValue)
                 this.inputValue = ''
             }
