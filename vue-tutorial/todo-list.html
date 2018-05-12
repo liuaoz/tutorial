@@ -1,0 +1,36 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>todo list</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+<div id="app">
+    <input v-model="inputValue">
+    <button v-on:click="handleBtnClick">提交</button>
+    <ul>
+        <li v-for="item in list">{{item}}</li>
+    </ul>
+</div>
+
+</body>
+
+<script>
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            inputValue: '请输入代办事项',
+            list: ['aaaa', 'bbbb']
+        },
+        methods: {
+            handleBtnClick: function () {
+                this.list.push(this.inputValue)
+                this.inputValue = ''
+            }
+        }
+    })
+
+</script>
+</html>
