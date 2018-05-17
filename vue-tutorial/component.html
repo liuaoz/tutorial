@@ -1,0 +1,48 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>组件使用中的细节点</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+
+<!-- 1.子组件的data必须是个函数，并且返回一个对象
+     2.因为子组件一般是被复用的，data定义为函数主要是为了避免单例的问题
+     3.ref属性，可以获取标签或者组件的引用
+ -->
+<div id="root">
+    <counter ref="one" @sum="sum"></counter>
+    <counter ref="two" @sum="sum"></counter>
+    <div>{{total}}</div>
+</div>
+<script>
+  Vue.component('counter', {
+    template: '<div v-on:click="handleClick"> {{num}} </div>',
+    data() {
+      return {
+        num: 0
+      }
+    },
+    methods: {
+      handleClick() {
+        this.num++;
+        this.$emit("sum");
+
+      }
+    }
+  })
+  var vm = new Vue({
+    el: '#root',
+    data: {
+      total: '0'
+    },
+    methods: {
+      sum() {
+        this.total = this.$refs.one.num + this.$refs.two.num
+      }
+    }
+  })
+</script>
+</body>
+</html>

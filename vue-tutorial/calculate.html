@@ -6,27 +6,44 @@
 </head>
 
 <body>
+<!-- 当计算的属性没有发生变化时，会缓存计算结果 -->
 <div id="root">
-    firstName: {{firstName}}  <br>
+    firstName: {{firstName}} <br>
     lastName: {{lastName}} <br>
-    FullName:
+    FullName: {{fullName}}
 </div>
 
 <script>
 
-    var vm = new Vue({
-        el: '#root',
-        data: {
-            name: 'hello vue.',
-            firstName: 'matrix',
-            lastName: 'chen',
-        },
-        computed: function () {
-            fullName: function () {
-                return this.firstName + this.lastName
-            }
-        }
-    })
+  var vm = new Vue({
+    el: '#root',
+    data: {
+      name: 'hello vue.',
+      firstName: 'matrix',
+      lastName: 'chen',
+      fullName:'chen matrix'
+    },
+//    computed: {
+//      fullName: function () {
+//        console.info('我计算了。。。')
+//        return this.firstName + this.lastName
+//      }
+//    },
+//    methods:{
+//      fullName: function(){
+//        console.info('方法：我计算了。。。')
+//        return this.firstName + this.lastName
+//      }
+//    }
+    watch:{
+      firstName (){
+        this.fullName =  this.firstName + this.lastName
+      },
+      lastName(){
+        this.fullName =  this.firstName + this.lastName
+      }
+    }
+  })
 
 </script>
 </body>
