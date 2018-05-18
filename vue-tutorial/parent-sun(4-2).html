@@ -7,31 +7,123 @@
 
 <body>
 <!--
-    父==>子 通过属性传值
+    :key 值为js表达式，所以:count="0",值为数值型0
+    父==>子
+        1.通过属性传值
+        2.子组件不能修改父组件传递过来的数据（单向数据流），与java中的值传递和引用传递类似
+            可以再子组件中定义函数对象
     子==>父
+        1.通过事件传值 this.$emit('事件名', ...)
+        2.父组件监听事件 @事件名
+            a.传递事件时，把相关变量传给父组件
+            b.通过获取组件对象来获取参数
+
+    父子组件生命周期：p父亲 s儿子
+    p-beforeCreate => p-created => p-beforeMount => s-beforeCreate => s-created
+    => s-beforeMount => s-mounted
+
+    值更新情况：
+    子组件属性值更新引起的父组件属性值更新
+    p-beforeUpdate => s-beforeUpdate => s-updated => p-updated
+
 
  -->
 
 <div id="root">
-    <counter :count="0"></counter>
-    <counter :count="1"></counter>
+    <counter :count="0" @count="handleCount" ref="one" @init="handleInit"></counter>
+    <counter :count="1" @count="handleCount" ref="two" @init="handleInit"></counter>
+    <div>{{total}}</div>
 </div>
 
 <script>
 
     var counter = {
-      props:['count'],
-      template: '<div>{{count}}</div>'
+        props: ['count'],
+        template: '<div @click="handleClick">{{num}}</div>',
+        data (){
+            return {
+                num: this.count
+            }
+        },
+        methods: {
+            handleClick(){
+                this.num++
+                this.$emit('count', 1)
+            }
+        },
+        beforeCreate(){
+            console.info('s-beforeCreate')
+        },
+        created(){
+            console.info('s-created')
+        },
+        beforeMount(){
+            console.info('s-beforeMount')
+        },
+        mounted(){
+            //被挂在到父组件的时候调用
+            console.info('s-mounted');
+            this.$emit('init')
+        },
+        beforeUpdate(){
+            console.info('s-beforeUpdate')
+        },
+        updated(){
+            console.info('s-updated')
+        },
+        beforeDestroy(){
+            console.info('s-beforeDestroy')
+        },
+        destroyed(){
+            console.info('s-destroyed')
+        }
     }
 
     var vm = new Vue({
-      el:'#root',
-      components:{
-        counter:counter
-      },
-      data:{
+        el: '#root',
+        components: {
+            counter: counter
+        },
+        data: {
+            total: 0
+        },
+        methods: {
+            handleCount(step){
+                console.info(step);
+                //this.total += step;
+                //方法二：使用组件引用
+                 this.total = this.$refs.one.num + this.$refs.two.num;
+                console.info(this.total)
+            },
+            handleInit(){
+                this.total = this.$refs.one.num + this.$refs.two.num;
+            }
+        },
+        beforeCreate(){
+            console.info('p-beforeCreate')
+        },
+        created(){
+            console.info('p-created')
+        },
+        beforeMount(){
+            console.info('p-beforeMount')
+        },
+        Mounted(){
+            console.info('p-mounted')
+        },
+        beforeUpdate(){
+            console.info('p-beforeUpdate')
+        },
+        updated(){
+            console.info('p-updated')
+        },
+        beforeDestroy(){
+            console.info('p-beforeDestroy')
+        },
+        destroyed(){
+            console.info('p-destroyed')
+        }
 
-      }
     })
 
 </script>
