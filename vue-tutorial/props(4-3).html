@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>参数校验与prop属性</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+
+<!--
+    子组件校验父组件传递过来的参数
+    1.将props定义为对象，而不是数组，对象的键为参数名，每个键的值可以为类型、数组、对象
+    如：props{
+            content: String
+       }
+       props{
+            content: [Number,String]
+       }
+       props{
+            content:{
+                type: String,
+                required: false,
+                default: 'default value',
+                validator: function(value){
+                    //返回true为通过，false不通过
+                    alert('可以使用函数来校验参数');
+                    return (value.length > 5);
+                }
+            }
+       }
+     2.props属性，父组件传，子组件要接（即，要预先定义好属性）；不在页面上显示标签属性
+       非props属性，父组件传，子组件不接；在页面上显示标签属性
+
+       //【问题】：校验不通过怎么办，有异常捕获吗？
+
+-->
+
+<div id="root">
+    <child :param="0" :content="0"></child>
+</div>
+
+<script>
+
+    Vue.component('child', {
+        props: {
+            content: Number
+        },
+        template: '<div>{{content}}</div>',
+        data(){
+            return {
+                cont: this.content
+            }
+        },
+
+        mounted(){
+            console.info(this.cont)
+        }
+    });
+
+    var vm = new Vue({
+        el: '#root',
+        data: {},
+        method: {}
+    })
+</script>
+</body>
+</html>
