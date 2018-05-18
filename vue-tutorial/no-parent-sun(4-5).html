@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>非父子组件间的传值</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+<!--
+    终极方法：使用发布订阅模式传值，在vue中成为总线机制
+
+    疑问：对象间的关系? 怎么继承?
+
+    单向数据流
+
+-->
+<div id="root">
+    <child content="zhangsan"></child>
+    <child content="lisi"></child>
+</div>
+<script>
+
+    Vue.prototype.bus = new Vue()
+
+    Vue.component('child', {
+        props: ['content'],
+        template: '<div @click="handleClick">{{selfContent}}</div>',
+        data(){
+            return {
+                selfContent: this.content
+        }
+        },
+        methods: {
+            handleClick(){
+                this.bus.$emit('change', this.selfContent);
+            }
+        },
+        mounted(){
+            var this_ = this;
+            this.bus.$on('change', function (msg) {
+                this_.selfContent = msg;
+            })
+        }
+    })
+
+    var root = new Vue({
+        el: '#root',
+        data: {
+            number: 444
+        },
+        methods: {
+            handleChange(){
+                console.info('root...')
+            }
+        }
+    });
+</script>
+</body>
+</html>
