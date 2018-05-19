@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue中的插槽(slot)</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+<!--
+    任务：父组件传递dom给子组件，可以使用props传递，但是当dom结构复杂的时候，代码很挫>>..<<
+
+-->
+<div id="root">
+    <child content="<p>matrix<p>">
+        <div class="header" slot="header">this is the header</div>
+        <div class="footer" slot="footer">this is the footer</div>
+
+    </child>
+
+</div>
+
+<script>
+
+    Vue.component('child',{
+      props: ['content'],
+      template: `<div>
+                    <slot name="header"></slot>
+                    this is the child content.
+                    <slot name="footer"></slot>
+                </div>`,
+      data(){
+        return {
+
+        }
+      }
+    })
+
+    var vm = new Vue({
+      el: '#root',
+      data:{
+
+      }
+    })
+</script>
+</body>
+</html>
