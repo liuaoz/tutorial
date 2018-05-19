@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue中的js动画与velocity.js的结合</title>
+    <script src="../vue.js"></script>
+    <script src="../velocity.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../animate.css">
+</head>
+<body>
+<!--
+动画钩子：1.before-enter
+        2.enter
+        3.
+ <!--@before-enter="handleBeforeEnter"
+            @enter="handleEnter"
+            @after-enter="handleAfterEnter"
+            @before-leave="handleBeforeLeave"
+            @leave="handleLeave"
+            @after-leave="handleAfterLeave"-->
+
+<div id="root">
+
+    <transition
+            @before-enter="handleBeforeEnter"
+            @enter="handleEnter"
+            @after-enter="handleAfterEnter"
+            name="fade">
+        <div v-show="show">this is matrix.</div>
+    </transition>
+
+    <button @click="show = !show">click</button>
+
+</div>
+
+<script>
+
+    var vm = new Vue({
+        el: '#root',
+        data: {
+            show: true
+        },
+        methods: {
+            handleBeforeEnter(el){
+                //el.style.color = 'red'
+                el.style.opacity = 0;
+                console.info('beforeEnter...')
+            },
+            handleEnter(el,done){
+                /*console.info('enter...');
+                setTimeout(()=>{
+                    el.style.color='green';
+                    done()
+                },2000)*/
+                Velocity(el,{opacity:1},{duration:1000,complete:done})
+            },
+            handleAfterEnter(el){
+                /*setTimeout(()=>{
+                    el.style.color='yellow';
+                },2000)
+
+                console.info('afterEnter...');*/
+                console.log('aaaaa')
+            }
+        }
+    })
+</script>
+
+</body>
+</html>
