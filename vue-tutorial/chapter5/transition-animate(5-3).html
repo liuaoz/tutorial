@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>在vue中同时使用过渡和动画</title>
+    <script src="../vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="../animate.css">
+    <style>
+        .fade-enter, .fade-leave-to {
+            opacity: 0;
+        }
+
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity 3s;
+        }
+
+    </style>
+</head>
+<body>
+<!--
+初始化页面的时候，就有动画效果
+动画时间和过渡时间不一致的情况怎么处理? 手动设置时间
+-->
+<div id="root">
+
+    <transition
+            :duration="{enter:5000,leave:10000}"
+            name="fade"
+            appear
+            enter-active-class="animated swing fade-enter-active"
+            leave-active-class="animated shake fade-leave-active"
+            appear-active-class="animated swing">
+
+        <div v-show="show">this is matrix.</div>
+    </transition>
+    <button @click="show = !show">click</button>
+
+</div>
+
+<script>
+
+    var vm = new Vue({
+        el: '#root',
+        data: {
+            show: true
+        },
+        methods: {}
+    })
+</script>
+
+</body>
+</html>
